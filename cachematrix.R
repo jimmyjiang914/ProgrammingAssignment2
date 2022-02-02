@@ -1,24 +1,34 @@
-## Put comments here that give an overall description of what your
-## functions do
+## cacheSolve accepts the output of makeCacheMatrix-- which consists of a list
+## of functions that are able to manipulate the state of the outputted 
+## makeCacheMatrix object (the list). cacheSolve decides whether to compute
+## the matrix inversion (if it sees that no cache exists), or if it returns the
+## cached inverse matrix from the makeCacheMatrix list object.
 
-## Write a short comment describing this function
+## makeCacheMatrix: A function that accepts a matrix and generates a list 
+##                  of functions that perform set/get operations on the original 
+##                  matrix provided, as well as on the inverse of the given matrix.
+##                  Caching here allows the state of the matrix and inverse matrix
+##                  variables to be preserved.
 
 makeCacheMatrix <- function(x = matrix()) {
   i <- NULL
-  set <- function(y) {
+  set <- function(y) { # Set function used to update matrix
     x <<- y
     i <<- NULL
   }
-  get <- function() x
-  setinverse <- function(inverse) i <<- inverse
-  getinverse <- function() i
-  list(set = set, get = get,
+  get <- function() x # Get function used to return matrix
+  setinverse <- function(inverse) i <<- inverse # Set function used to set inverse matrix as i-- inverse is computed in cacheSolve
+  getinverse <- function() i # Get function used to return the inverse matrix from variable i.
+  list(set = set, get = get, # Returns list of functions
        setinverse = setinverse,
        getinverse = getinverse)
 }
 
 
-## Write a short comment describing this function
+## cacheSolve: A function that accepts an the output of makeCacheMatrix,
+##             computes the matrix inversion if the object does not contain a
+##             defined inverse matrix variable-- or returns the inverse matrix
+##             if it has already been cached to makeCacheMatrix object.
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
